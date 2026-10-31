@@ -10,3 +10,4 @@ namespace CompleteSystem.Models.DTOs
         
     }
 }
+// LISTAGEM, DETALHES E RETORNO DO SERVICE 
