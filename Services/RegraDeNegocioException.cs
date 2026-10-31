@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace CompleteSystem.Services
 {
-    public class RegraDeNegocioException
+    public class RegraDeNegocioException : Exception
     {
-        
+        public RegraDeNegocioException(string mensagem): base(mensagem) { }
     }
 }

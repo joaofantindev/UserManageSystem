@@ -8,7 +8,7 @@ namespace CompleteSystem.Services
 {
     public interface IUsuarioService
     {
-        Task<IReadOnlyList<UsuarioResponseDTO>> ListAsync(); //
+        Task<IReadOnlyList<UsuarioResponseDTO>> ListAsync(); // I Read Only List = eu só leio listas, não modifico
         Task<UsuarioResponseDTO?> ObterPorIdAsync(int id); //
         Task<UsuarioResponseDTO> CriarAsync(UsuarioCreateDTO dto); //
         Task<bool> AtualizarAsync(UsuarioUpdateDTO dto); //
