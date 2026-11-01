@@ -18,11 +18,5 @@ namespace CompleteSystem.Models.DTOs;
             CriadoEm = usuario.CriadoEm
         };
 
-        public static UsuarioUpdateDTO ToUpdateDTO(this UsuarioResponseDTO usuario) => new()
-        {
-          Id = usuario.Id,
-          Nome = usuario.Nome,
-          Email = usuario.Email,
-          Ativo = usuario.Ativo
-        };
+        public static UsuarioUpdateDTO ToUpdateDTO(this UsuarioResponseDTO usuario) => new() { Id = usuario.Id, Nome = usuario.Nome, Email = usuario.Email, Ativo = usuario.Ativo };
     }
