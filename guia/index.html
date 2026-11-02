@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0b0f1a" />
   <title>Guia · CRUD de Usuários com DTO, SOLID e SRP</title>
   <meta name="description" content="Guia prático em HTML e CSS para criar um CRUD de usuários em ASP.NET Core MVC com DTO, SOLID, responsabilidade única e Services." />
   <link rel="stylesheet" href="styles.css" />
@@ -177,14 +179,16 @@
           </div>
 
           <p>
-            No seu projeto atual, a entidade <code class="inline">Usuario.cs</code> está dentro de
-            <code class="inline">Models/</code>, mas com namespace <code class="inline">CompleteSystem.Data</code>.
-            Ao organizar, deixe o namespace igual à pasta: <code class="inline">CompleteSystem.Models</code>.
+            No projeto, a entidade <code class="inline">Usuario.cs</code> fica em
+            <code class="inline">Models/</code> com o namespace <code class="inline">CompleteSystem.Models</code>.
+            A regra é simples: o namespace acompanha a pasta. Se a entidade estiver em
+            <code class="inline">Models/</code>, o namespace deve ser
+            <code class="inline">CompleteSystem.Models</code>, nunca <code class="inline">CompleteSystem.Data</code>.
           </p>
 
           <pre class="tree"><code>CompleteSystem/
 ├── Controllers/
-│   └── UsuariosController.cs        <span class="c"># só HTTP</span>
+│   └── UsuarioController.cs         <span class="c"># só HTTP</span>
 ├── Models/
 │   ├── Usuario.cs                   <span class="c"># entidade = tabela</span>
 │   └── DTOs/
@@ -193,13 +197,14 @@
 │       ├── UsuarioResponseDTO.cs    <span class="c"># saída / resposta</span>
 │       └── UsuarioMapper.cs         <span class="c"># entidade ↔ DTO</span>
 ├── Data/
-│   └── AppDbContext.cs              <span class="c"># EF Core</span>
+│   ├── AppDbContext.cs              <span class="c"># EF Core</span>
+│   └── Migrations/                  <span class="c"># histórico do banco</span>
 ├── Services/
 │   ├── IUsuarioService.cs           <span class="c"># contrato</span>
 │   ├── UsuarioService.cs            <span class="c"># regras de negócio</span>
 │   └── RegraDeNegocioException.cs   <span class="c"># erro esperado</span>
 ├── Views/
-│   └── Usuarios/
+│   └── Usuario/
 │       ├── Index.cshtml
 │       ├── Create.cshtml
 │       ├── Edit.cshtml
@@ -396,12 +401,13 @@ public class UsuarioResponseDTO
           <div class="callout warn">
             <span class="ico">!</span>
             <div class="body">
-              <strong>DTO não é interface</strong>
+              <strong>DTO é classe, não interface</strong>
               <p>
-                O arquivo <code class="inline">Models/DTOs/UsuarioInterfaceDTO.cs</code> do projeto pode ser
-                removido: DTO é uma classe de transporte. Interfaces seguem outro papel e outra convenção
-                de nome — <code class="inline">IUsuarioService</code>, por exemplo. O prefixo <code class="inline">I</code>
-                é para interfaces, não para DTOs.
+                DTO é uma classe de transporte: não existe “interface de DTO”. Interfaces seguem
+                outro papel e outra convenção de nome — <code class="inline">IUsuarioService</code>,
+                por exemplo. O prefixo <code class="inline">I</code> é para interfaces, não para DTOs.
+                Se aparecer um <code class="inline">UsuarioInterfaceDTO</code>, é sinal de nome e
+                responsabilidade confusos: renomeie ou remova.
               </p>
             </div>
           </div>
@@ -461,10 +467,6 @@ public class AppDbContext : DbContext
 
             entidade.Property(u =&gt; u.Nome)
                 .HasMaxLength(100)
-                .IsRequired();
-
-            entidade.Property(u =&gt; u.Email)
-                .HasMaxLength(150)
                 .IsRequired();
 
             entidade.HasIndex(u =&gt; u.Email).IsUnique();
@@ -793,7 +795,7 @@ public static class UsuarioMapper
 
           <figure class="code">
             <figcaption>
-              <span class="file">Controllers/UsuariosController.cs</span>
+              <span class="file">Controllers/UsuarioController.cs</span>
               <span class="lang">C#</span>
             </figcaption>
             <pre><code>using CompleteSystem.Models.DTOs;
@@ -802,11 +804,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CompleteSystem.Controllers;
 
-public class UsuariosController : Controller
+public class UsuarioController : Controller
 {
     private readonly IUsuarioService _usuarioService;
 
-    public UsuariosController(IUsuarioService usuarioService)
+    public UsuarioController(IUsuarioService usuarioService)
     {
         _usuarioService = usuarioService;
     }
@@ -986,7 +988,7 @@ public async Task&lt;IActionResult&gt; Create(
           <h3>Listagem</h3>
           <figure class="code">
             <figcaption>
-              <span class="file">Views/Usuarios/Index.cshtml</span>
+              <span class="file">Views/Usuario/Index.cshtml</span>
               <span class="lang">Razor</span>
             </figcaption>
             <pre><code>@model IReadOnlyList&lt;UsuarioResponseDTO&gt;
@@ -1034,7 +1036,7 @@ public async Task&lt;IActionResult&gt; Create(
           <h3>Criação</h3>
           <figure class="code">
             <figcaption>
-              <span class="file">Views/Usuarios/Create.cshtml</span>
+              <span class="file">Views/Usuario/Create.cshtml</span>
               <span class="lang">Razor</span>
             </figcaption>
             <pre><code>@model UsuarioCreateDTO
@@ -1078,12 +1080,12 @@ public async Task&lt;IActionResult&gt; Create(
           </p>
           <figure class="code">
             <figcaption>
-              <span class="file">Views/Usuarios/Edit.cshtml (trecho)</span>
+              <span class="file">Views/Usuario/Edit.cshtml (trecho)</span>
               <span class="lang">Razor</span>
             </figcaption>
             <pre><code>@model UsuarioUpdateDTO
 
-&lt;form asp-action="Edit" method="post"&gt;
+&lt;form asp-action="Edit" asp-route-id="@Model.Id" method="post"&gt;
     &lt;input type="hidden" asp-for="Id" /&gt;
     &lt;div asp-validation-summary="ModelOnly" class="text-danger"&gt;&lt;/div&gt;
 
@@ -1165,6 +1167,13 @@ builder.Services.AddScoped&lt;IPasswordHasher&lt;Usuario&gt;, PasswordHasher&lt;
 
 var app = builder.Build();
 
+// Garante que o app.db exista e esteja com as migrations aplicadas.
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService&lt;AppDbContext&gt;();
+    db.Database.Migrate();
+}
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -1205,8 +1214,11 @@ app.Run();</code></pre>
 
           <h3>Criar o banco</h3>
           <p>
-            Com o DbContext configurado, gere a migration e atualize o banco. Se o comando
+            Com o DbContext configurado, gere a migration inicial. Se o comando
             <code class="inline">dotnet ef</code> não existir, instale a ferramenta uma vez.
+            O <code class="inline">Database.Migrate()</code> no <code class="inline">Program.cs</code>
+            aplica as migrations automaticamente quando a aplicação inicia — por isso o
+            <code class="inline">app.db</code> é criado na primeira execução.
           </p>
 
           <figure class="code">
@@ -1217,7 +1229,9 @@ app.Run();</code></pre>
             <pre><code># só na primeira vez, se o comando não existir
 dotnet tool install --global dotnet-ef
 
-dotnet ef migrations add CriarTabelaUsuarios
+dotnet ef migrations add InitialCreate
+
+# opcional: aplicar sem iniciar a aplicação
 dotnet ef database update</code></pre>
           </figure>
 
@@ -1288,7 +1302,7 @@ dotnet ef database update</code></pre>
               <strong>SRP na prática: o teste da frase única</strong>
               <p>
                 Descreva a classe sem usar “e”. “UsuarioService executa as regras do CRUD de usuários.”
-                Perfeito. “UsuariosController recebe a requisição, valida o formulário, acessa o banco,
+                Perfeito. “UsuarioController recebe a requisição, valida o formulário, acessa o banco,
                 faz o hash e devolve a View.” Reprovado: são responsabilidades demais no mesmo lugar.
               </p>
             </div>
@@ -1401,7 +1415,7 @@ dotnet ef database update</code></pre>
             </li>
             <li>
               <strong>API com os mesmos DTOs e service</strong>
-              <span>Crie um <code class="inline">UsuariosApiController</code> retornando os DTOs. A regra continua no service, sem duplicação.</span>
+              <span>Crie um <code class="inline">UsuarioApiController</code> retornando os DTOs. A regra continua no service, sem duplicação.</span>
             </li>
             <li>
               <strong>Paginação, busca e ordenação</strong>

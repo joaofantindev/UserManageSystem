@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CompleteSystem.Data
+namespace CompleteSystem.Models
 {
     public class Usuario
     {

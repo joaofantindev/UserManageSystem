@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 
 namespace CompleteSystem.Controllers;
 
-[Route("[controller]")]
 public class UsuarioController : Controller
 {
     private readonly IUsuarioService _usuarioService;
@@ -21,7 +20,7 @@ public class UsuarioController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var usuarios = await _usuarioService.ListAsync();
+        var usuarios = await _usuarioService.ListarAsync();
         return View(usuarios);
     }
 
