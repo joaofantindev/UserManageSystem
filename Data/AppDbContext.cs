@@ -17,6 +17,7 @@ namespace CompleteSystem.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //ENTIDADE USUARIO
             modelBuilder.Entity<Usuario>(entidade =>
             {
                 entidade.ToTable("Usuarios");
@@ -28,6 +29,29 @@ namespace CompleteSystem.Data
 
                 entidade.Property(u => u.SenhaHash).HasMaxLength(255).IsRequired();
                 
+            });
+            
+
+            //ENTIDADE PRODUTO
+            modelBuilder.Entity<Produto>(entidade =>
+            {
+                entidade.ToTable("Produtos");
+                entidade.HasKey(p => p.Id);
+
+                entidade.Property(p => p.Nome)
+                .HasMaxLength(100)
+                .IsRequired();
+
+                entidade.Property(p => p.Marca)
+                .HasMaxLength(100)
+                .IsRequired();
+
+                entidade.Property(p => p.Preco)
+                .HasPrecision(11, 2)
+                .IsRequired();
+
+                entidade.Property(p => p.CompradoEm)
+                .IsRequired(); 
             });
         }
     }
