@@ -50,6 +50,34 @@ namespace CompleteSystem.Data.Migrations
 
                     b.ToTable("Usuarios", (string)null);
                 });
+
+            modelBuilder.Entity("UserManageSystem.Models.Produto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CompradoEm")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Marca")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Preco")
+                        .HasPrecision(11, 2)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Produtos", (string)null);
+                });
 #pragma warning restore 612, 618
         }
     }
