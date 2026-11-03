@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CompleteSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using UserManageSystem.Models;
 
 namespace CompleteSystem.Data
 {
@@ -12,6 +13,7 @@ namespace CompleteSystem.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
         public DbSet<Usuario> Usuarios => Set<Usuario>();
+        public DbSet<Produto> Produtos => Set<Produto>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

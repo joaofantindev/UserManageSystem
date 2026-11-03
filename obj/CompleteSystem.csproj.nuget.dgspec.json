@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/fantin/Desktop/dotnet/CompleteSystem/CompleteSystem.csproj": {}
+    "/home/fantin/Desktop/projetos/csharp/UserManageSystem/CompleteSystem.csproj": {}
   },
   "projects": {
-    "/home/fantin/Desktop/dotnet/CompleteSystem/CompleteSystem.csproj": {
+    "/home/fantin/Desktop/projetos/csharp/UserManageSystem/CompleteSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/fantin/Desktop/dotnet/CompleteSystem/CompleteSystem.csproj",
+        "projectUniqueName": "/home/fantin/Desktop/projetos/csharp/UserManageSystem/CompleteSystem.csproj",
         "projectName": "CompleteSystem",
-        "projectPath": "/home/fantin/Desktop/dotnet/CompleteSystem/CompleteSystem.csproj",
+        "projectPath": "/home/fantin/Desktop/projetos/csharp/UserManageSystem/CompleteSystem.csproj",
         "packagesPath": "/home/fantin/.nuget/packages/",
-        "outputPath": "/home/fantin/Desktop/dotnet/CompleteSystem/obj/",
+        "outputPath": "/home/fantin/Desktop/projetos/csharp/UserManageSystem/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/fantin/.nuget/NuGet/NuGet.Config"
@@ -24,7 +24,6 @@
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -39,11 +38,10 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.400"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
@@ -82,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.403/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.113/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
