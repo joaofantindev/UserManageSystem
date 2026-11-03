@@ -9,9 +9,10 @@ namespace UserManageSystem.Services
     public interface IProdutoService
     {
         Task<IReadOnlyList<ProdutoRespostaDTO>> ListarAsync();
-        Task<ProdutoRespostaDTO?> ObterPorIdAsync();
+        Task<ProdutoRespostaDTO?> ObterPorIdAsync(int id);
+        Task<ProdutoRespostaDTO> CriarAsync(ProdutoCreateDTO dto);  
         Task<bool> AtualizarAsync(ProdutoUpdateDTO dto);
-        Task<bool> RemoverAsyn(int id);
+        Task<bool> RemoverAsync(int id);
         // bool pra saber se o produto existe ou foi encontrado
     }
 }

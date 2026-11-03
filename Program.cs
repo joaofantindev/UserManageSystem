@@ -3,17 +3,21 @@ using CompleteSystem.Models;
 using CompleteSystem.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using UserManageSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>(); //hash de senha
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IProdutoService, ProdutoService>();
+// AddScoped cria uma instancia a cada requisição
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
+//builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 var app = builder.Build();
 
